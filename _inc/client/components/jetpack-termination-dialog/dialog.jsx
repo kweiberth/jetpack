@@ -75,7 +75,7 @@ class JetpackTerminationDialog extends Component {
 		closeDialog: PropTypes.func.isRequired,
 		isDevVersion: PropTypes.bool,
 		location: PropTypes.oneOf( [ 'plugins', 'dashboard' ] ).isRequired,
-		purpose: PropTypes.oneOf( [ 'disconnect', 'disable' ] ).isRequired,
+		purpose: PropTypes.oneOf( [ 'disconnect', 'deactivate' ] ).isRequired,
 		siteBenefits: PropTypes.array,
 		submitSurvey: PropTypes.func,
 		terminateJetpack: PropTypes.func.isRequired,
