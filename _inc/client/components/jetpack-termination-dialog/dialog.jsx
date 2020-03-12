@@ -82,6 +82,7 @@ class JetpackTerminationDialog extends Component {
 	};
 
 	state = {
+		isProcessing: false,
 		step: JetpackTerminationDialog.FEATURE_STEP,
 		surveyAnswerId: null,
 		surveyAnswerText: '',
@@ -99,6 +100,7 @@ class JetpackTerminationDialog extends Component {
 	handleTerminationClick = () => {
 		const { location, purpose, siteId, sitePlan, submitSurvey, terminateJetpack } = this.props;
 		const { surveyAnswerId, surveyAnswerText } = this.state;
+		this.setState( { isProcessing: true } );
 		analytics.tracks.recordEvent( 'jetpack_termination_dialog_termination_click', {
 			location,
 			purpose,
@@ -141,9 +143,10 @@ class JetpackTerminationDialog extends Component {
 
 	renderSurvey() {
 		const { purpose } = this.props;
-		const { surveyAnswerId, surveyAnswerText } = this.state;
+		const { surveyAnswerId, surveyAnswerText, isProcessing } = this.state;
 		return (
 			<JetpackTerminationDialogSurvey
+				disabled={ isProcessing }
 				onSurveyAnswerChange={ this.handleSurveyAnswerChange }
 				purpose={ purpose }
 				surveyAnswerId={ surveyAnswerId }
@@ -154,13 +157,13 @@ class JetpackTerminationDialog extends Component {
 
 	renderPrimaryButton() {
 		const { purpose } = this.props;
-		const { step } = this.state;
+		const { step, isProcessing } = this.state;
 		return step === JetpackTerminationDialog.FEATURE_STEP ? (
-			<Button primary onClick={ this.handleContinueClick }>
+			<Button primary onClick={ this.handleContinueClick } disabled={ isProcessing }>
 				{ __( 'Continue' ) }
 			</Button>
 		) : (
-			<Button scary primary onClick={ this.handleTerminationClick }>
+			<Button scary primary onClick={ this.handleTerminationClick } disabled={ isProcessing }>
 				{ purpose === 'disconnect' ? __( 'Disconnect' ) : __( 'Disable' ) }
 			</Button>
 		);
@@ -168,7 +171,7 @@ class JetpackTerminationDialog extends Component {
 
 	render() {
 		const { purpose, location } = this.props;
-		const { step } = this.state;
+		const { isProcessing, step } = this.state;
 
 		return (
 			<div className="jetpack-termination-dialog">
@@ -199,7 +202,9 @@ class JetpackTerminationDialog extends Component {
 								: __( 'Are you sure you want to disconnect and deactivate?' ) }
 						</p>
 						<div className="jetpack-termination-dialog__button-row-buttons">
-							<Button onClick={ this.handleDialogCloseClick }>{ __( 'Cancel' ) }</Button>
+							<Button disabled={ isProcessing } onClick={ this.handleDialogCloseClick }>
+								{ __( 'Cancel' ) }
+							</Button>
 							{ this.renderPrimaryButton() }
 						</div>
 					</div>
