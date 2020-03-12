@@ -17,6 +17,7 @@ import store from 'state/redux-store';
 import i18n from 'i18n-calypso';
 import Main from 'main';
 import * as actionTypes from 'state/action-types';
+import JetpackDeactivateModal from 'components/jetpack-termination-dialog/deactivate-modal';
 
 // Initialize the accessibile focus to allow styling specifically for keyboard navigation
 accessibleFocus();
@@ -124,6 +125,11 @@ function render() {
 						path="/sharing"
 						name={ i18n.translate( 'Sharing', { context: 'Navigation item.' } ) }
 						component={ Main }
+					/>
+					<Route
+						path="/disconnect-survey"
+						name={ i18n.translate( 'Disconnect Survey', { context: 'Navigation item.' } ) }
+						component={ JetpackDeactivateModal }
 					/>
 					<Route path="/wpbody-content" component={ Main } />
 					<Route path="/wp-toolbar" component={ Main } />
